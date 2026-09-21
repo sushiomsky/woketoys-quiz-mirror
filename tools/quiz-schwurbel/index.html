@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Wie schwurbelig bist du? — Das Quiz | Schwurbel-Shop</title>
+<meta name="description" content="5 Fragen, 0 % Wirkung, 100 % Aufklärung: Finde deinen Schwurbel-Level — und das passende Gag-Produkt dazu.">
+<link rel="canonical" href="https://schwu.uber.space/quiz/">
+<meta property="og:type" content="website">
+<meta property="og:title" content="Wie schwurbelig bist du? 🌀 Das Quiz">
+<meta property="og:description" content="5 Fragen. 3 Schwurbel-Level. Garniert mit Aufklärung. Mach das Quiz und teil dein Ergebnis!">
+<meta property="og:url" content="https://schwu.uber.space/quiz/">
+<style>
+:root{--bg:#131019;--card:#1f1929;--acc:#8b5cf6;--acc2:#ffd12e;--txt:#f4f1ea;--mut:#b9b3c7}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--txt);font-family:system-ui,-apple-system,Segoe UI,Roboto,sans-serif;line-height:1.55}
+.wrap{max-width:640px;margin:0 auto;padding:1.2rem}
+a{color:var(--acc2)}
+.top{text-align:center;padding:1.6rem 0 .4rem}.top h1{font-size:1.7rem;margin:.3rem 0}.top p{color:var(--mut)}
+.card{background:var(--card);border:1px solid #3a3049;border-radius:14px;padding:1.2rem;margin:1rem 0}
+.q h2{font-size:1.15rem;margin:.2rem 0 .8rem}.q .opts button{display:block;width:100%;text-align:left;margin:.45rem 0;padding:.7rem .9rem;border-radius:10px;border:1px solid #4a405e;background:#292134;color:var(--txt);font-size:1rem;cursor:pointer}
+.q .opts button:hover{border-color:var(--acc);background:#332a45}
+.progress{height:8px;background:#2a2333;border-radius:99px;overflow:hidden;margin:.6rem 0}.progress i{display:block;height:100%;background:linear-gradient(90deg,var(--acc),var(--acc2));width:0}
+.result{text-align:center}.result .fig{font-size:3.2rem}.result h2{margin:.4rem 0}.result .blurb{color:var(--mut)}
+.btn{display:inline-block;margin:.4rem .25rem;padding:.7rem 1.2rem;border-radius:10px;border:0;font-weight:700;font-size:1rem;cursor:pointer;text-decoration:none}
+.btn-p{background:var(--acc);color:#fff}.btn-s{background:#2c2540;color:var(--txt);border:1px solid #554a70}
+.sharebox{background:#0f0c14;border:1px dashed #5b5170;border-radius:10px;padding:.8rem;margin:.8rem 0;font-size:.92rem;white-space:pre-wrap;text-align:left}
+.fakt{background:#17301f;border:1px solid #2c6b3f;border-radius:10px;padding:.7rem .9rem;font-size:.88rem;margin:.7rem 0;text-align:left}
+.shop-link{margin-top:.6rem;font-size:.95rem;color:var(--mut)}
+.nl{margin-top:1rem;background:#101018;border:1px solid #4a4a66;border-radius:10px;padding:.9rem;text-align:left}.nl input{width:100%;padding:.7rem .9rem;margin:.3rem 0;border-radius:10px;border:1px solid #55556e;background:#14141c;color:#fff;font-size:1rem}.nl .ok{background:#17301f;border:1px solid #2c6b3f;border-radius:10px;padding:.7rem;margin-top:.6rem}.nl .err{background:#3a1414;border:1px solid #8b2c2c;border-radius:10px;padding:.7rem;margin-top:.6rem}.nl small{color:var(--mut)}
+footer{text-align:center;color:var(--mut);font-size:.8rem;padding:1.4rem 0}
+</style>
+</head>
+<body>
+<div class="wrap">
+<div class="top">
+<div>🌀 <b>Schwurbel-Shop</b> · <a href="/">zum Shop</a> · <a href="/newsletter.html">Gratis-PDF 🎁</a></div>
+<h1>Wie schwurbelig bist du?</h1>
+<p>5 Fragen. 3 Level. Wirkt garantiert nicht — klärt garantiert auf.</p>
+</div>
+<div class="progress"><i id="bar"></i></div>
+<div class="card" id="stage"></div>
+<footer>🎭 Satire-Shop · Alle Produkte ohne Wirkversprechen · <a href="/">schwu.uber.space</a></footer>
+</div>
+<script>
+(function(){
+var SHOP="https://schwu.uber.space";
+var QUIZ=[
+ {q:"Dein Handy liegt nachts neben dem Bett. Warum?",o:[["Weil Wecker halt praktisch ist",0],["Weil Flugmodus + 2 m Abstand, sicher ist sicher",1],["Weil ich es in Alufolie wickle — 5G schläft nie",2],["Weil der FunkFrieden-Aufkleber alles harmonisiert (Satire!)",3]]},
+ {q:"Jemand schenkt dir ein Entgiftungspflaster. Du …",o:[["… klebst es an, morgens braun = entgiftet!",3],["… googelst erst mal Studien dazu",0],["… verschenkst es weiter — als Gag",1],["… erklärst: Verfärbung = Schweiß + Oxidation",2]]},
+ {q:"Deine Meinung zu Kondensstreifen?",o:[["Eiskristalle, längst erklärt. Next.",0],["Ganz ehrlich: sehen schon verdächtig aus …",1],["Chemtrails! Der Balsam hilft (glaub ich)",2],["Ich verkaufe Schutzbalsam dagegen — als Satire",3]]},
+ {q:"Wähle deine Kopfbedeckung:",o:[["🧢 Cap — normal",0],["🎩 Aluhut — ironisch auf Partys",1],["⛑️ MindCap Deluxe — Vollzeit + Ersatz",3],["🔮 Kristall-Krone — schwingt halt",2]]},
+ {q:"Die Erde ist …",o:[["… ein Geoid. Sorry.",0],["… rund, aber meine Tante zweifelt",1],["… eine Scheibe — steht auf meinem Globus",3],["… egal, Hauptsache der Globus sieht gut aus",2]]}
+];
+var step=0,pts=0;
+function render(){
+ var st=document.getElementById("stage"),bar=document.getElementById("bar");
+ bar.style.width=(step/QUIZ.length*100)+"%";
+ if(step>=QUIZ.length){showResult(st,bar);return;}
+ var q=QUIZ[step],h='<div class="q"><h2>Frage '+(step+1)+"/"+QUIZ.length+": "+q.q+'</h2><div class="opts">';
+ q.o.forEach(function(o,i){h+='<button data-i="'+i+'">'+o[0]+"</button>";});
+ st.innerHTML=h+"</div></div>";
+ st.querySelectorAll("button").forEach(function(b){
+  b.onclick=function(){pts+=q.o[+b.dataset.i][1];step++;render();};
+ });
+}
+function level(){
+ if(pts<=3)return{emoji:"🔬",t:"AUFGEKLÄRT (Level 0–3)",d:"Du bist so schwurbelig wie ein Laborkittel. Respekt! Dein Gag-Potenzial: Schenk anderen Aufklärung — verpackt als Witz.",sku:"SC-003",pn:"5G-Harmonisierer „FunkFrieden“",fakt:"Fakt: 5G-Strahlung liegt unterhalb der Grenzwerte — die Photonenenergie reicht schlicht nicht, um DNA aufzubrechen."};
+ if(pts<=8)return{emoji:"🌀",t:"WACKELKANDIDAT (Level 4–8)",d:"Mal skeptisch, mal empfänglich — du bist die Zielgruppe jeder Doku UND jeder Eso-Messe. Perfekt ausbalanciert (nicht).",sku:"SC-008",pn:"Alu-Schutzhelm „MindCap Deluxe“",fakt:"Fakt: Entgiftungspflaster verfärben sich durch Schweiß und Oxidation — in keiner Studie wurde je eine entgiftende Wirkung gezeigt."};
+ return{emoji:"🛸",t:"VOLL-SCHWURBEL (Level 9–15)",d:"Du schläfst in Alufolie und dein Globus ist eine Scheibe. Wir urteilen nicht — wir verkaufen dir Deko dafür. Mit Aufklärung gratis dazu.",sku:"SC-012",pn:"Flat-Earth-Globus „ScheibenWelt“",fakt:"Fakt: Kondensstreifen sind Eiskristalle aus Abgas-Feuchte — messbar, erklärt, kein Sprühprogramm."};
+}
+function showResult(st,bar){
+ bar.style.width="100%";
+ var L=level();
+ var share="Ich bin "+L.t+" "+L.emoji+" ("+pts+"/15 Schwurbel-Punkte) — Wie schwurbelig bist du? Quiz: "+SHOP+"/quiz/ #SchwurbelQuiz";
+ var wa="https://wa.me/?text="+encodeURIComponent(share);
+ var x="https://twitter.com/intent/tweet?text="+encodeURIComponent(share);
+ var mst="https://mastodon.social/share?text="+encodeURIComponent(share);
+ st.innerHTML='<div class="result"><div class="fig">'+L.emoji+'</div><h2>'+L.t+'</h2><p>'+pts+'/15 Punkte</p>'
+ +'<p class="blurb">'+L.d+'</p>'
+ +'<div class="fakt">🔬 '+L.fakt+'</div>'
+ +'<p>🎁 Dein Produkt-Match: <b>'+L.pn+'</b> ('+L.sku+')</p>'
+ +'<p><a class="btn btn-p" href="'+SHOP+'/#produkte">'+L.pn+' holen →</a></p>'
+ +'<h3>📣 Teil dein Ergebnis:</h3><div class="sharebox" id="sharetext">'+share+'</div>'
+ +'<button class="btn btn-s" id="copy">📋 Text kopieren</button> '
+ +'<a class="btn btn-s" href="'+x+'" target="_blank" rel="noopener">𝕏 Posten</a> '
+ +'<a class="btn btn-s" href="'+mst+'" target="_blank" rel="noopener">🐘 Mastodon</a> '
+ +'<a class="btn btn-s" href="'+wa+'" target="_blank" rel="noopener">💬 WhatsApp</a>'
+ +'<div class="nl"><b>📩 Ergebnis sichern + Gratis-PDF:</b><br><small>Top-10 Gag-Geschenke 2026 als PDF — gegen E-Mail. Kein Spam, Abmeldung jederzeit.</small>'
+ +'<form id="nlform"><input id="nlemail" type="email" placeholder="deine@email.de" required autocomplete="email">'
+ +'<button class="btn btn-p" type="submit">🎁 PDF gratis anfordern</button></form><div id="nlmsg"></div></div>'
++'<p class="shop-link">Nochmal? <a href="#" id="again">Quiz wiederholen ↻</a> · <a href="/">Alle 15 Produkte im Shop →</a></p></div>';
+ document.getElementById("copy").onclick=function(){
+  var t=document.getElementById("sharetext").innerText;
+  if(navigator.clipboard&&navigator.clipboard.writeText){navigator.clipboard.writeText(t).then(function(){document.getElementById("copy").innerText="✅ Kopiert!";});}
+  else{var ta=document.createElement("textarea");ta.value=t;document.body.appendChild(ta);ta.select();try{document.execCommand("copy");document.getElementById("copy").innerText="✅ Kopiert!";}catch(e){}document.body.removeChild(ta);}
+ };
+ document.getElementById("again").onclick=function(e){e.preventDefault();step=0;pts=0;render();}; document.getElementById("nlform").onsubmit=function(e){e.preventDefault();
+  var em=document.getElementById("nlemail").value.trim(),m=document.getElementById("nlmsg");m.innerHTML="";
+  fetch("/api/newsletter.php",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({email:em,source:"quiz-schwurbel-result",shop:"schwurbel"})})
+  .then(function(r){return r.json();})
+  .then(function(j){if(j.ok){m.innerHTML='<div class="ok">✅ Geschafft! <a href="/top10-gag-geschenke-2026.pdf" download><b>PDF jetzt herunterladen →</b></a></div>';}else{m.innerHTML='<div class="err">⚠️ '+(j.error||"Fehler \u2014 bitte sp\u00E4ter erneut versuchen.")+"</div>";}})
+  .catch(function(){m.innerHTML='<div class="err">⚠️ Netzwerkfehler \u2014 bitte sp\u00E4ter erneut versuchen.</div>';});
+ };
+}
+render();
+})();
+</script>
+</body>
+</html>

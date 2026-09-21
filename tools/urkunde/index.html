@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Schwurbel-Urkunden-Generator – personalisierte Gag-Urkunde gratis | Schwurbel-Shop</title>
+<meta name="description" content="Gratis Gag-Urkunde erstellen: Namen eingeben, personalisierte Schwurbel-Urkunde als PNG herunterladen – oder gedruckt für 14,99 € vorbestellen. Satire-Geschenk mit Humor.">
+<link rel="canonical" href="https://schwu.uber.space/urkunde/">
+<style>
+*{box-sizing:border-box}body{font-family:Georgia,'Times New Roman',serif;margin:0;background:#1a120b;color:#f5ead6}
+header{padding:28px 16px;text-align:center;background:linear-gradient(135deg,#4a2c12,#8a5a1e)}
+h1{margin:0 0 8px;font-size:1.7rem}p.sub{margin:0;opacity:.9;font-style:italic}
+main{max-width:760px;margin:0 auto;padding:24px 16px 60px;font-family:system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif}
+.card{background:#241a10;border:1px solid #6b4a22;border-radius:14px;padding:20px}
+label{font-weight:700}input,select{width:100%;padding:12px;border-radius:10px;border:1px solid #6b4a22;background:#120d07;color:#f5ead6;font-size:1rem;margin:8px 0 14px}
+.row{display:flex;gap:10px;flex-wrap:wrap}
+button,.btn{padding:13px 20px;border-radius:10px;border:0;font-weight:800;font-size:1rem;cursor:pointer;text-decoration:none;display:inline-block}
+#gen{background:#8a5a1e;color:#fff}#gen:hover{background:#a06a24}
+#dl{background:#2e7d32;color:#fff;display:none}#dl:hover{background:#256a29}
+#buy{background:#f59e0b;color:#111;margin-top:14px;width:100%;text-align:center}#buy:hover{background:#d97706}
+canvas{width:100%;border-radius:10px;margin-top:16px;display:none;background:#fff}
+#msg{min-height:1.5em;margin-top:10px;font-size:.95rem;opacity:.9}
+#orderform{display:none;margin-top:14px;border-top:1px dashed #6b4a22;padding-top:14px}
+.back{display:block;margin-top:28px;text-align:center;color:#d8c49a}
+footer{text-align:center;opacity:.5;font-size:.8rem;padding:20px;font-family:system-ui,sans-serif}
+</style>
+</head>
+<body>
+<header>
+<h1>📜 Schwurbel-Urkunden-Generator</h1>
+<p class="sub">Dein Diplom in angewandter Esoterik – gratis als PNG, gedruckt fürs Regal.</p>
+</header>
+<main>
+<div class="card">
+<label for="name">Name der ausgezeichneten Person</label>
+<input id="name" type="text" maxlength="60" placeholder="z. B. Kevin Schwurbel">
+<label for="title">Urkunden-Titel</label>
+<select id="title">
+<option>Geprüfte*r Aluhut-Träger*in findings</option>
+<option>Ordentlich verwirrte Quantenheilpraktiker*in</option>
+<option>Doktor der Homöopathie (honoris causa latensis)</option>
+<option>Zertifizierte*r Chemtrail-Beobachter*in</option>
+<option>Großmeister*in der Kristall-Energie</option>
+<option>Professor*in für 5G-Versteherei</option>
+</select>
+<div class="row">
+<button id="gen">🖨️ Urkunde generieren</button>
+<button id="dl">⬇️ PNG herunterladen</button>
+</div>
+<canvas id="cv" width="1200" height="850"></canvas>
+<button id="buy">🛒 Als Kunstdruck bestellen – nur 14,99 € (Vorkasse)</button>
+<div id="orderform">
+<label for="email">E-Mail für die Vorbestellung</label>
+<input id="email" type="text" placeholder="name@beispiel.de">
+<label for="addr">Adresse (Versand nach Geldeingang)</label>
+<input id="addr" type="text" placeholder="Straße, PLZ Ort">
+<button id="send" style="background:#2e7d32;color:#fff;width:100%">✅ Gedruckte Urkunde vorbestellen</button>
+</div>
+<div id="msg" role="status"></div>
+</div>
+<a class="back" href="https://schwu.uber.space/">← zurück zum Schwurbel-Shop (15 Gag-Produkte)</a>
+</main>
+<footer>Reine Satire – jede Ähnlichkeit mit echten Diplomen ist unbeabsichtigt. 🌿 10 % für die Wissenschaft.</footer>
+<script>
+(function(){
+"use strict";
+var cv=document.getElementById('cv'),ctx=cv.getContext('2d'),
+nm=document.getElementById('name'),ti=document.getElementById('title'),
+msg=document.getElementById('msg'),dl=document.getElementById('dl'),
+buy=document.getElementById('buy'),of=document.getElementById('orderform');
+function draw(){
+var name=(nm.value.trim()||'Max Musterschwurbel');
+var title=ti.value;
+ctx.fillStyle='#fdf6e3';ctx.fillRect(0,0,1200,850);
+ctx.strokeStyle='#8a5a1e';ctx.lineWidth=10;ctx.strokeRect(20,20,1160,810);
+ctx.strokeStyle='#c9a227';ctx.lineWidth=3;ctx.strokeRect(40,40,1120,770);
+ctx.textAlign='center';ctx.fillStyle='#4a2c12';
+ctx.font='bold 54px Georgia,serif';
+ctx.fillText('🏵️ EHREN-URKUNDE 🏵️',600,150);
+ctx.font='italic 30px Georgia,serif';ctx.fillStyle='#6b4a22';
+ctx.fillText('Das Hohe Institut für Angewandten Schwurbel verleiht',600,230);
+ctx.font='bold 64px Georgia,serif';ctx.fillStyle='#1a120b';
+var n=name.length>28?44:64;ctx.font='bold '+n+'px Georgia,serif';
+ctx.fillText(name,600,340);
+ctx.font='italic 30px Georgia,serif';ctx.fillStyle='#6b4a22';
+ctx.fillText('den ehrenvollen Titel',600,410);
+ctx.font='bold 40px Georgia,serif';ctx.fillStyle='#8a1a1a';
+var t=title.length>45?30:40;ctx.font='bold '+t+'px Georgia,serif';
+wrap(title,600,480,t+14,1000);
+ctx.font='italic 24px Georgia,serif';ctx.fillStyle='#6b4a22';
+ctx.fillText('Möge dein Aluhut niemals verrutschen. ✨🔮✨',600,620);
+ctx.font='24px Georgia,serif';
+var d=new Date().toLocaleDateString('de-DE',{day:'2-digit',month:'long',year:'numeric'});
+ctx.fillText('Ausgestellt am '+d+' · schwu.uber.space',600,680);
+ctx.font='italic 22px Georgia,serif';ctx.fillStyle='#8a5a1e';
+ctx.fillText('Der Groß-Schwurbelmeister          Die Kristall-Beauftragte',600,760);
+cv.style.display='block';dl.style.display='inline-block';
+msg.textContent='✅ Urkunde für „'+name+'“ erstellt – jetzt herunterladen oder gedruckt bestellen!';
+}
+function wrap(text,x,y,lh,max){
+var words=text.split(' '),line='',lines=[];
+for(var i=0;i<words.length;i++){var t=line+words[i]+' ';
+if(ctx.measureText(t).width>max&&line){lines.push(line);line=words[i]+' ';}else line=t;}
+lines.push(line);
+var sy=y-(lines.length-1)*lh/2;
+for(var j=0;j<lines.length;j++)ctx.fillText(lines[j].trim(),x,sy+j*lh);
+}
+document.getElementById('gen').addEventListener('click',draw);
+dl.addEventListener('click',function(){
+var a=document.createElement('a');
+a.download='schwurbel-urkunde-'+(nm.value.trim()||'gag').replace(/\s+/g,'-')+'.png';
+a.href=cv.toDataURL('image/png');a.click();
+});
+buy.addEventListener('click',function(){of.style.display=of.style.display==='block'?'none':'block';});
+document.getElementById('send').addEventListener('click',function(){
+var email=document.getElementById('email').value.trim(),
+addr=document.getElementById('addr').value.trim(),
+name=(nm.value.trim()||'Gag-Besteller');
+if(!email||!addr){msg.textContent='⚠️ Bitte E-Mail + Adresse für die Vorbestellung ausfüllen.';return;}
+msg.textContent='⏳ Sende Vorbestellung…';
+fetch('/api/preorder.php',{method:'POST',headers:{'Content-Type':'application/json'},
+body:JSON.stringify({name:name,email:email,address:addr,country:'DE',method:'bank',
+items:[{id:'urkunde-gedruckt',qty:1,name:'Schwurbel-Urkunde Kunstdruck: '+ti.value,price:14.99}]})})
+.then(function(r){return r.json();})
+.then(function(o){
+if(o.ok)msg.textContent='🎉 Vorbestellung '+o.orderNr+' erhalten! Zahlungsinfos kommen per Mail – Versand nach Geldeingang.';
+else msg.textContent='⚠️ '+(o.error||'Fehler – bitte später erneut versuchen.');
+})
+.catch(function(){msg.textContent='⚠️ Netzwerkfehler – bitte später erneut versuchen.';});
+});
+var init=new URLSearchParams(location.search).get('name');
+if(init){nm.value=init;}
+})();
+</script>
+</body>
+</html>

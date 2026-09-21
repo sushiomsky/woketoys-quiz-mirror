@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>MTG Kartenwert prüfen – gratis Preis-Check (EUR) | MANAVAULT</title>
+<meta name="description" content="Magic: The Gathering Kartenwert gratis prüfen: Kartennamen eingeben, Bild, aktuellen EUR-Preis und Foil-Trend sehen – Daten von Scryfall. Seltene Singles danach bei MANAVAULT suchen.">
+<link rel="canonical" href="https://magic.uber.space/tool/">
+<style>
+*{box-sizing:border-box}body{font-family:system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif;margin:0;background:#0f1420;color:#eef1f6}
+header{padding:28px 16px;text-align:center;background:linear-gradient(135deg,#1b2450,#5b2a86)}
+h1{margin:0 0 8px;font-size:1.6rem}p.sub{margin:0;opacity:.85}
+main{max-width:720px;margin:0 auto;padding:24px 16px 60px}
+.search{display:flex;gap:8px;margin:20px 0}
+input[type=text]{flex:1;padding:12px;border-radius:10px;border:1px solid #33415e;background:#182033;color:#fff;font-size:1rem}
+button{padding:12px 18px;border-radius:10px;border:0;background:#7c3aed;color:#fff;font-weight:700;cursor:pointer;font-size:1rem}
+button:hover{background:#6d28d9}
+#status{min-height:1.4em;opacity:.8;margin:6px 0}
+.result{display:none;background:#182033;border:1px solid #2b3566;border-radius:14px;padding:18px;margin-top:14px}
+.result.show{display:flex;gap:18px;flex-wrap:wrap}
+.result img{max-width:220px;width:100%;border-radius:10px}
+.info{flex:1;min-width:220px}
+.price{font-size:1.8rem;font-weight:800;color:#4ade80}
+.trend{margin:8px 0;padding:8px 12px;border-radius:8px;background:#0f172a;font-size:.95rem}
+.shopbtn{display:inline-block;margin-top:12px;background:#f59e0b;color:#111;text-decoration:none;padding:12px 18px;border-radius:10px;font-weight:800}
+.shopbtn:hover{background:#d97706}
+.back{display:block;margin-top:28px;text-align:center;opacity:.7;color:#cbd5e1}
+footer{text-align:center;opacity:.5;font-size:.8rem;padding:20px}
+</style>
+</head>
+<body>
+<header>
+<h1>🃏 MTG Kartenwert prüfen</h1>
+<p class="sub">Gratis Preis-Check: Name eingeben → Bild + EUR-Preis + Trend. Daten: Scryfall.</p>
+</header>
+<main>
+<div class="search">
+<input id="q" type="text" placeholder="z. B. Black Lotus, Ragavan, Sheoldred…" autocomplete="off">
+<button id="go">Wert prüfen</button>
+</div>
+<div id="status" role="status"></div>
+<div class="result" id="res">
+<img id="img" alt="Kartenscan">
+<div class="info">
+<h2 id="name" style="margin-top:0"></h2>
+<div class="price" id="eur"></div>
+<div class="trend" id="trend"></div>
+<div id="extra" style="opacity:.8;font-size:.9rem"></div>
+<a class="shopbtn" id="shop" href="https://magic.uber.space/" target="_blank" rel="noopener">🔎 Bei MANAVAULT suchen</a>
+</div>
+</div>
+<a class="back" href="https://magic.uber.space/">← zurück zum Shop (27 MTG-Singles)</a>
+</main>
+<footer>Preise: Scryfall (Markt-Richtwerte, keine Kaufgarantie) · MANAVAULT</footer>
+<script>
+(function(){
+"use strict";
+var q=document.getElementById('q'),go=document.getElementById('go'),
+st=document.getElementById('status'),res=document.getElementById('res'),
+img=document.getElementById('img'),nm=document.getElementById('name'),
+eur=document.getElementById('eur'),trend=document.getElementById('trend'),
+extra=document.getElementById('extra'),shop=document.getElementById('shop');
+function lookup(){
+var name=q.value.trim();
+if(!name){st.textContent='Bitte Kartennamen eingeben.';return;}
+st.textContent='Suche „'+name+'“…';
+res.classList.remove('show');
+fetch('https://api.scryfall.com/cards/named?fuzzy='+encodeURIComponent(name))
+.then(function(r){if(!r.ok)throw new Error('nicht gefunden');return r.json();})
+.then(function(c){
+var p=c.prices||{};
+var e=parseFloat(p.eur),f=parseFloat(p.eur_foil),u=parseFloat(p.usd),t=parseFloat(p.tix);
+nm.textContent=c.name+(c.set_name?' · '+c.set_name:'');
+eur.textContent=isNaN(e)?'EUR: –':'≈ '+e.toFixed(2).replace('.',',')+' €';
+var tr=[],cls='';
+if(!isNaN(e)&&!isNaN(f)&&e>0){
+var plus=((f-e)/e*100);
+tr.push('Foil: '+f.toFixed(2).replace('.',',')+' € ('+(plus>=0?'+':'')+plus.toFixed(0)+' %)');
+cls=plus>50?'🔥 Foil stark über Normal – Sammleraufschlag':'📊 Foil-Aufschlag moderat';
+}else if(!isNaN(f)){tr.push('Nur Foil: '+f.toFixed(2).replace('.',',')+' €');cls='✨ Nur als Foil mit Preis';}
+if(!isNaN(u))tr.push('USD: $'+u.toFixed(2));
+if(!isNaN(t))tr.push('TIX: '+t.toFixed(2));
+if(!tr.length)tr.push('Kein Marktpreis verfügbar');
+trend.textContent=(cls?cls+' · ':'')+tr.join(' · ');
+extra.textContent=(c.rarity?('Seltenheit: '+c.rarity+' · '):'')+(c.released_at?('Release: '+c.released_at):'');
+var im=c.image_uris?(c.image_uris.normal||c.image_uris.large):(c.card_faces&&c.card_faces[0].image_uris?c.card_faces[0].image_uris.normal:'');
+if(im){img.src=im;img.alt=c.name;}
+shop.href='https://magic.uber.space/?search='+encodeURIComponent(c.name);
+res.classList.add('show');
+st.textContent='';
+})
+.catch(function(){st.textContent='Karte nicht gefunden – Schreibweise prüfen.';});
+}
+go.addEventListener('click',lookup);
+q.addEventListener('keydown',function(e){if(e.key==='Enter')lookup();});
+var init=new URLSearchParams(location.search).get('card');
+if(init){q.value=init;lookup();}
+})();
+</script>
+</body>
+</html>
