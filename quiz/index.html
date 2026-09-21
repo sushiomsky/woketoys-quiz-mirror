@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Welcher WokeToy bist du? — Das Quiz | WOKE TOYS</title>
+<meta name="description" content="5 Fragen, 0 % Ernst, 100 % Regal-Material: Finde heraus, welcher WokeToy du bist — und hol ihn dir als Pre-Order.">
+<link rel="canonical" href="https://woketoy.uber.space/quiz/">
+<meta property="og:type" content="website">
+<meta property="og:title" content="Welcher WokeToy bist du? 🧸 Das Quiz">
+<meta property="og:description" content="5 Fragen. 6 mögliche Figuren. 0 % Ernst. Mach das Quiz und teil dein Ergebnis!">
+<meta property="og:url" content="https://woketoy.uber.space/quiz/">
+<style>
+:root{--bg:#14141c;--card:#1e1e2a;--acc:#ff2e88;--acc2:#ffd12e;--txt:#f4f1ea;--mut:#b9b3c7}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--txt);font-family:system-ui,-apple-system,Segoe UI,Roboto,sans-serif;line-height:1.55}
+.wrap{max-width:640px;margin:0 auto;padding:1.2rem}
+a{color:var(--acc2)}
+.top{text-align:center;padding:1.6rem 0 .4rem}.top h1{font-size:1.7rem;margin:.3rem 0}.top p{color:var(--mut)}
+.card{background:var(--card);border:1px solid #33334a;border-radius:14px;padding:1.2rem;margin:1rem 0}
+.q h2{font-size:1.15rem;margin:.2rem 0 .8rem}.q .opts button{display:block;width:100%;text-align:left;margin:.45rem 0;padding:.7rem .9rem;border-radius:10px;border:1px solid #44445e;background:#262637;color:var(--txt);font-size:1rem;cursor:pointer}
+.q .opts button:hover{border-color:var(--acc);background:#2e2e42}
+.progress{height:8px;background:#2a2a3a;border-radius:99px;overflow:hidden;margin:.6rem 0}.progress i{display:block;height:100%;background:linear-gradient(90deg,var(--acc),var(--acc2));width:0}
+.result{text-align:center}.result .fig{font-size:3.2rem}.result h2{margin:.4rem 0}.result .blurb{color:var(--mut)}
+.btn{display:inline-block;margin:.4rem .25rem;padding:.7rem 1.2rem;border-radius:10px;border:0;font-weight:700;font-size:1rem;cursor:pointer;text-decoration:none}
+.btn-p{background:var(--acc);color:#fff}.btn-s{background:#2c2c40;color:var(--txt);border:1px solid #4a4a66}
+.sharebox{background:#101018;border:1px dashed #55556e;border-radius:10px;padding:.8rem;margin:.8rem 0;font-size:.92rem;white-space:pre-wrap;text-align:left}
+.shop-link{margin-top:.6rem;font-size:.95rem;color:var(--mut)}
+.nl{margin-top:1rem;background:#101018;border:1px solid #4a4a66;border-radius:10px;padding:.9rem;text-align:left}.nl input{width:100%;padding:.7rem .9rem;margin:.3rem 0;border-radius:10px;border:1px solid #55556e;background:#14141c;color:#fff;font-size:1rem}.nl .ok{background:#17301f;border:1px solid #2c6b3f;border-radius:10px;padding:.7rem;margin-top:.6rem}.nl .err{background:#3a1414;border:1px solid #8b2c2c;border-radius:10px;padding:.7rem;margin-top:.6rem}.nl small{color:var(--mut)}
+footer{text-align:center;color:var(--mut);font-size:.8rem;padding:1.4rem 0}
+</style>
+</head>
+<body>
+<div class="wrap">
+<div class="top">
+<div>🧸 <b>WOKE TOYS</b> · <a href="https://woketoy.uber.space/">zum Shop</a> · <a href="/newsletter.html">Gratis-PDF 🎁</a></div>
+<h1>Welcher WokeToy bist du?</h1>
+<p>5 Fragen. 6 mögliche Figuren. 0 % Ernst.</p>
+</div>
+<div class="progress"><i id="bar"></i></div>
+<div class="card" id="stage"></div>
+<footer>Satire-Sammelfiguren · Pre-Order per Vorkasse · <a href="https://woketoy.uber.space/">woketoy.uber.space</a></footer>
+</div>
+<script>
+(function(){
+var SHOP="https://woketoy.uber.space";
+var PRODUCTS={
+ "woke-bob":{emoji:"🌈",name:"WOKE BOB",blurb:"Moralapostel mit Regenbogen-Cape. Du hast zu allem eine Meinung — und zu deiner Meinung noch eine Meinung."},
+ "bob-stone":{emoji:"🪨",name:"BOB STONE",blurb:"Fels in der Brandung der Diskurs-Stürme. Du sitzt alles aus. Buchstäblich. Du bist aus Stein."},
+ "karen-cannon":{emoji:"📢",name:"KAREN CANNON",blurb:"Sprichst grundsätzlich mit dem Manager. Der Manager hat Angst vor dir. Zu Recht."},
+ "protest-pam":{emoji:"✊",name:"PROTEST PAM",blurb:"Auf jeder Demo vorne dabei — auch wenn du nicht weißt, wogegen. Hauptsache Schild."},
+ "hashtag-hank":{emoji:"#️⃣",name:"HASHTAG HANK",blurb:"Du löst keine Probleme, du trendest sie. #Betroffenheit #Thread 🧵"},
+ "censor-sue":{emoji:"🔇",name:"CENSOR SUE",blurb:"Dein Lieblingssatz hat drei Sternchen. Du piepst sogar beim Vorlesen."}
+};
+var QUIZ=[
+ {q:"Freitagabend — wo bist du?",o:[["Auf einer Demo (welche ist egal)","protest-pam"],["Im Thread-Beef auf X","hashtag-hank"],["Beim Manager beschweren","karen-cannon"],["Auf der Couch, alles egal","bob-stone"]]},
+ {q:"Dein Lieblingssatz?",o:[["„Da muss man differenzieren …“","woke-bob"],["„Das kann man so nicht sagen!“","censor-sue"],["„Ich poste dazu gleich einen Thread“","hashtag-hank"],["„Sprich lauter, ich bin aus Stein“","bob-stone"]]},
+ {q:"Was ist dein Spirit-Hashtag?",o:[["#Betroffenheit","hashtag-hank"],["#IchFordereEinGespräch","karen-cannon"],["#Dagegen (oder dafür?)","protest-pam"],["#ZensiertAusGründen","censor-sue"]]},
+ {q:"Dein Freund erzählt einen grenzwertigen Witz. Du …",o:[["… lachst und postest ihn anonym","bob-stone"],["… belehrst 20 Minuten","woke-bob"],["… meldest ihn (irgendwo)","censor-sue"],["… organisierst eine Gegendemo","protest-pam"]]},
+ {q:"Wähle ein Accessoire:",o:[["📣 Megafon","karen-cannon"],["🧵 Thread-Nadel","hashtag-hank"],["🚫 Zensur-Balken","censor-sue"],["🌈 Cape der Betroffenheit","woke-bob"]]}
+];
+var step=0,score={};
+function render(){
+ var st=document.getElementById("stage"),bar=document.getElementById("bar");
+ bar.style.width=(step/QUIZ.length*100)+"%";
+ if(step>=QUIZ.length){showResult(st,bar);return;}
+ var q=QUIZ[step],h='<div class="q"><h2>Frage '+(step+1)+"/"+QUIZ.length+": "+q.q+'</h2><div class="opts">';
+ q.o.forEach(function(o,i){h+='<button data-i="'+i+'">'+o[0]+"</button>";});
+ st.innerHTML=h+"</div></div>";
+ st.querySelectorAll("button").forEach(function(b){
+  b.onclick=function(){var k=q.o[+b.dataset.i][1];score[k]=(score[k]||0)+1;step++;render();};
+ });
+}
+function winner(){var best=null,n=-1;for(var k in score){if(score[k]>n){n=score[k];best=k;}}return best||"woke-bob";}
+function showResult(st,bar){
+ bar.style.width="100%";
+ var k=winner(),p=PRODUCTS[k];
+ var share="Ich bin "+p.name+" "+p.emoji+" — Welcher WokeToy bist du? Quiz: "+SHOP+"/quiz/ #WokeToys";
+ var wa="https://wa.me/?text="+encodeURIComponent(share);
+ var x="https://twitter.com/intent/tweet?text="+encodeURIComponent(share);
+ var mst="https://mastodon.social/share?text="+encodeURIComponent(share);
+ st.innerHTML='<div class="result"><div class="fig">'+p.emoji+'</div><h2>Du bist '+p.name+'!</h2>'
+ +'<p class="blurb">'+p.blurb+'</p>'
+ +'<p><a class="btn btn-p" href="'+SHOP+'/#figures">🧸 '+p.name+' als Figur holen →</a></p>'
+ +'<h3>📣 Teil dein Ergebnis:</h3><div class="sharebox" id="sharetext">'+share+'</div>'
+ +'<button class="btn btn-s" id="copy">📋 Text kopieren</button> '
+ +'<a class="btn btn-s" href="'+x+'" target="_blank" rel="noopener">𝕏 Posten</a> '
+ +'<a class="btn btn-s" href="'+mst+'" target="_blank" rel="noopener">🐘 Mastodon</a> '
+ +'<a class="btn btn-s" href="'+wa+'" target="_blank" rel="noopener">💬 WhatsApp</a>'
+ +'<div class="nl"><b>📩 Ergebnis sichern + Gratis-PDF:</b><br><small>Top-10 Gag-Geschenke 2026 als PDF — gegen E-Mail. Kein Spam, Abmeldung jederzeit.</small>'
+ +'<form id="nlform"><input id="nlemail" type="email" placeholder="deine@email.de" required autocomplete="email">'
+ +'<button class="btn btn-p" type="submit">🎁 PDF gratis anfordern</button></form><div id="nlmsg"></div></div>'
++'<p class="shop-link">Nochmal? <a href="#" id="again">Quiz wiederholen ↻</a> · <a href="https://woketoy.uber.space/">Alle 17 Figuren im Shop →</a></p></div>';
+ document.getElementById("copy").onclick=function(){
+  var t=document.getElementById("sharetext").innerText;
+  if(navigator.clipboard&&navigator.clipboard.writeText){navigator.clipboard.writeText(t).then(function(){document.getElementById("copy").innerText="✅ Kopiert!";});}
+  else{var ta=document.createElement("textarea");ta.value=t;document.body.appendChild(ta);ta.select();try{document.execCommand("copy");document.getElementById("copy").innerText="✅ Kopiert!";}catch(e){}document.body.removeChild(ta);}
+ };
+ document.getElementById("again").onclick=function(e){e.preventDefault();step=0;score={};render();}; document.getElementById("nlform").onsubmit=function(e){e.preventDefault();
+  var em=document.getElementById("nlemail").value.trim(),m=document.getElementById("nlmsg");m.innerHTML="";
+  fetch("https://woketoy.uber.space/api/newsletter.php",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({email:em,source:"quiz-woke-result",shop:"woketoy"})})
+  .then(function(r){return r.json();})
+  .then(function(j){if(j.ok){m.innerHTML='<div class="ok">✅ Geschafft! <a href="/top10-gag-geschenke-2026.pdf" download><b>PDF jetzt herunterladen →</b></a></div>';}else{m.innerHTML='<div class="err">⚠️ '+(j.error||"Fehler \u2014 bitte sp\u00E4ter erneut versuchen.")+"</div>";}})
+  .catch(function(){m.innerHTML='<div class="err">⚠️ Netzwerkfehler \u2014 bitte sp\u00E4ter erneut versuchen.</div>';});
+ };
+}
+render();
+})();
+</script>
+</body>
+</html>
